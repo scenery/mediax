@@ -1,0 +1,73 @@
+{{ define "main" }}
+<main>
+    <h2 class="page-title">添加条目</h2>
+    <p>1. 选择添加的类型:</p>
+    <form id="mediaForm" action="/add" method="POST">
+        <div class="home-list">
+            <div class="home-item">
+                <input type="radio" id="book" name="subject_type" value="book" {{if eq .SubjectType "book" }}checked{{end}} hidden>
+                <label for="book">
+                    <div class="home-item-cover add-selection">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" fill="var(--book-color)" ><path d="M23 5v13.883l-1 .117v-16c-3.895.119-7.505.762-10.002 2.316-2.496-1.554-6.102-2.197-9.998-2.316v16l-1-.117v-13.883h-1v15h9.057c1.479 0 1.641 1 2.941 1 1.304 0 1.461-1 2.942-1h9.06v-15h-1zm-12 13.645c-1.946-.772-4.137-1.269-7-1.484v-12.051c2.352.197 4.996.675 7 1.922v11.613zm9-1.484c-2.863.215-5.054.712-7 1.484v-11.613c2.004-1.247 4.648-1.725 7-1.922v12.051z"/></svg>
+                        <div class="home-item-name note-color">图书</div>
+                    </div>
+                </label>
+            </div>
+        
+            <div class="home-item">
+                <input type="radio" id="movie" name="subject_type" value="movie" {{if eq .SubjectType "movie" }}checked{{end}} hidden>
+                <label for="movie">
+                    <div class="home-item-cover add-selection">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" fill="var(--movie-color)" ><path d="M10 20v-6l5 3-5 3zm14-15.625l-.008-.042-1.008-4.333-21.169 4.196c-1.054.209-1.815 1.134-1.815 2.207v14.597c0 1.657 1.343 3 3 3h18c1.656 0 3-1.343 3-3v-14h-12.734l12.734-2.625zm-3.89-2.618l2.396 1.604-2.994.595-2.398-1.605 2.996-.594zm-5.897 1.169l2.399 1.606-2.993.595-2.402-1.607 2.996-.594zm-5.905 1.171l2.403 1.608-2.993.595-2.406-1.61 2.996-.593zm2.538 3.903l-2.039 2h-3.054l2.039-2h3.054zm8.978 0h3.054l-2.038 2h-3.055l2.039-2zm-6.012 0h3.053l-2.039 2h-3.053l2.039-2zm8.188 4v8.75c0 .69-.56 1.25-1.25 1.25h-17.5c-.69 0-1.25-.56-1.25-1.25v-8.75h20z"/></svg>
+                        <div class="home-item-name note-color">电影</div>
+                    </div>
+                </label>
+            </div>
+        
+            <div class="home-item">
+                <input type="radio" id="tv" name="subject_type" value="tv" {{if eq .SubjectType "tv" }}checked{{end}} hidden>
+                <label for="tv">
+                    <div class="home-item-cover add-selection">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" fill="var(--tv-color)"><path d="M22 4v12h-20v-12h20zm2-2h-24v16h24v-16zm-15 12v-8l7 4-7 4zm-2 6c1 1.194 2.862 2 5 2s4-.806 5-2h-10z"/></svg>
+                        <div class="home-item-name note-color">剧集</div>
+                    </div>
+                </label>
+            </div>
+        
+            <div class="home-item">
+                <input type="radio" id="anime" name="subject_type" value="anime" {{if eq .SubjectType "anime" }}checked{{end}} hidden>
+                <label for="anime">
+                    <div class="home-item-cover add-selection">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" fill="var(--anime-color)"><path d="M13.112 6l2.888-3.375-.781-.625-3.219 3.75-3.219-3.75-.781.625 2.888 3.375h-10.888v16h24v-16h-10.888zm7.888 14h-18v-12h18v12zm-12-2v-8l7 4-7 4z"/></svg>
+                        <div class="home-item-name note-color">番剧</div>
+                    </div>
+                </label>
+            </div>
+
+            <div class="home-item">
+                <input type="radio" id="game" name="subject_type" value="game" {{if eq .SubjectType "game" }}checked{{end}} hidden>
+                <label for="game">
+                    <div class="home-item-cover add-selection">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" fill="var(--game-color)"><path d="M17.622 3c-1.913 0-2.558 1.382-5.623 1.382-3.009 0-3.746-1.382-5.623-1.382-5.209 0-6.376 10.375-6.376 14.348 0 2.145.817 3.652 2.469 3.652 3.458 0 2.926-5 6.915-5h5.23c3.989 0 3.457 5 6.915 5 1.652 0 2.471-1.506 2.471-3.651 0-3.973-1.169-14.349-6.378-14.349zm-10.622 10c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3zm10-6c.552 0 1 .447 1 1 0 .553-.448 1-1 1s-1-.447-1-1c0-.553.448-1 1-1zm-2 4c-.552 0-1-.447-1-1 0-.553.448-1 1-1s1 .447 1 1c0 .553-.448 1-1 1zm2 2c-.552 0-1-.447-1-1 0-.553.448-1 1-1s1 .447 1 1c0 .553-.448 1-1 1zm2-2c-.552 0-1-.447-1-1 0-.553.448-1 1-1s1 .447 1 1c0 .553-.448 1-1 1zm-10.25-1c0 .965-.785 1.75-1.75 1.75s-1.75-.785-1.75-1.75.785-1.75 1.75-1.75 1.75.785 1.75 1.75z"/></svg>
+                        <div class="home-item-name note-color">游戏</div>
+                    </div>
+                </label>
+            </div>
+        </div>
+        <div class="edit-detail add-pre">
+            <p>2. 尝试自动获取数据:</p>
+            <p>
+                <label for="external_url">链接地址:</label>
+                <input type="text" id="external_url" name="external_url">
+            </p>
+            <p class="note-color">从 Douban 导入链接格式如下:</p>
+            <p class="note-color">- 图书: https://book.douban.com/subject/xxxxxx</p>
+            <p class="note-color">- 其他: https://movie.douban.com/subject/xxxxxx</p>
+            <p class="note-color">从 Bangumi 导入链接格式如下:</p>
+            <p class="note-color">- 通用: https://bgm.tv/subject/xxxxxx</p>
+            <p class="note-color">* 其中游戏仅支持从 Bangumi 导入，链接中请不要添加多余参数，如需手动添加留空即可。</p>
+        </div>
+        <button type="submit">下一步</button>
+    </form>
+</main>
+{{ end }}

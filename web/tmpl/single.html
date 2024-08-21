@@ -1,0 +1,61 @@
+{{ define "main" }}
+
+<main>
+    <div class="subject">
+        <div class="subject-info">
+            <img class="subject-cover" src='{{ .ImageURL }}' alt="{{ .PageTitle }}">
+            <div class="subject-detail">
+                <h2>{{ .Subject.Title }}</h2>
+                {{ with .Subject.AltTitle }}
+                <span class="note-color">{{ . }}</span>
+                {{ end }}
+                {{ if .Subject.Creator }}
+                <p><label>{{ .CreatorLabel }}:</label><span>{{ .Subject.Creator }}</span></p>
+                {{ end }}
+                {{ if .Subject.Press }}
+                <p><label>{{ .PressLabel }}:</label><span>{{ .Subject.Press }}</span></p>
+                {{ end }}
+                {{ if .Subject.PubDate }}
+                <p><label>{{ .PubDateLabel }}:</label><span>{{ .Subject.PubDate }}</span></p>
+                {{ end }}
+                <p><label>标记日期:</label><span>{{ .Subject.MarkDate }}</span></p>
+                <p><label>标记状态:</label><span>{{ .StatusText }}</span></p>
+                <p><label>我的评分:</label>
+                {{ if .RatingStar }}
+                <span class="rating-star-{{ .RatingStar }} note-color"></span>
+                {{ else }}
+                <span class="note-color"><i>暂未评分</i></span>
+                {{ end }}
+                </p>
+                {{ if .ExternalURLIcon }}
+                <p><label>外部链接:</label>&nbsp;{{ .ExternalURLIcon }}</p>
+                {{ end }}
+            </div>
+        </div>
+        <div class="subject-intro">
+            <h3 class="subject-intro-title">{{ .SummaryLabel }}</h3>
+            {{ with .Subject.Summary }}
+            <p class="subject-summary">{{ . }}</p>
+            {{ else }}
+            <p class="note-color"><i>暂无简介。</i></p>
+            {{ end }}
+            <h3 class="subject-intro-title">我的评论</h3>
+            {{ with .Subject.Comment }}
+            <p class="subject-comment">{{ . }}</p>
+            {{ else }}
+            <p class="note-color"><i>暂未评论。</i></p>
+            {{ end }}
+        </div>
+        <div class="subject-manage">
+            <a href="{{ printf "/%s/%s/edit" .Subject.SubjectType .Subject.UUID }}" class="">&gt;&nbsp;编辑该条目</a>
+
+            <form action="{{ printf "/%s/%s/delete" .Subject.SubjectType .Subject.UUID }}" method="POST" class="subject-delete">
+                (<label for="confirm_delete">&nbsp;或删除该条目?</label>)
+                <input type="checkbox" id="confirm_delete" name="confirm_delete" value="purge-it" hidden/>
+                <button id="delete-button" type="submit">确认删除</button>
+                <span>没有软删除，请谨慎操作 >_<</span>
+            </form>
+        </div>
+    </div>
+</main>
+{{ end }}

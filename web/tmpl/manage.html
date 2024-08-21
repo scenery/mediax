@@ -1,0 +1,100 @@
+{{ define "main" }}
+
+{{ $statusType := "看" }}
+{{ if eq .Subject.SubjectType "book" }}
+    {{ $statusType = "读" }}
+{{ else if eq .Subject.SubjectType "game" }}
+    {{ $statusType = "玩" }}
+{{ end }}
+
+{{ $readOnly := "" }}
+{{ if or (eq .ManageType 4) (ne .Subject.ExternalURL "" ) }}
+{{ $readOnly = "readonly" }}
+{{ end }}
+
+{{ $submitURL := "/add/subject" }}
+{{ $cancelURL := "/add" }}
+{{ $buttonText := "确认添加" }}
+{{ $cancelText := "放弃添加" }}
+{{ if eq .ManageType 2 }}
+    {{ $submitURL = printf "/%s/%s/edit" .Subject.SubjectType .Subject.UUID }}
+    {{ $cancelURL = printf "/%s/%s" .Subject.SubjectType .Subject.UUID }}
+    {{ $buttonText = "提交修改" }}
+    {{ $cancelText = "放弃修改" }}
+{{ end }}
+<main>
+    <h2>{{ .PageTitle }}</h2>
+    <form action="{{ $submitURL }}" method="POST" enctype="multipart/form-data">
+        <div class="subject edit-page">
+            <div class="subject-info">
+                <img class="subject-cover edit-cover" src='{{ .ImageURL }}' alt="{{ .Subject.Title }}">
+                <div class="subject-detail edit-detail">
+                    <p><label for="title">标题:</label><input type="text" id="title" name="title" value="{{ .Subject.Title }}" placeholder="必须填写" required></p>
+                    <p><label for="alt_title">别名/副标题:</label><input type="text" id="alt_title" name="alt_title" value="{{ .Subject.AltTitle }}" placeholder="可选"></p>
+                    <p><label for="creator">{{ .CreatorLabel }}:</label><input type="text" id="creator" name="creator" value="{{ .Subject.Creator }}" placeholder="如有多个建议用 / 分隔"></p>
+                    <p><label for="press">{{ .PressLabel }}:</label><input type="text" id="press" name="press" value="{{ .Subject.Press }}" placeholder="如有多个建议用 / 分隔"></p>
+                    <p><label for="pub_date">{{ .PubDateLabel }}:</label><input type="text" id="pub_date" name="pub_date" value="{{ .Subject.PubDate }}" placeholder="建议格式: 2024-08-08"></p>
+                    <p><label for="mark_date">标记日期:</label><input type="date" id="mark_date" name="mark_date" value="{{ .Subject.MarkDate }}"></p>
+                    <p><label for="external_url">外部链接:</label><input type="text" id="external_url" name="external_url" value="{{ .Subject.ExternalURL }}" placeholder="如填写须保证该链接在所有条目中唯一" {{ $readOnly }}></p>
+                    <div class="edit-select">
+                        <div class="edit-select-list">
+                            <label for="subject_type">条目分类:</label>
+                            <select id="subject_type" name="subject_type">
+                                <option value="book" {{if eq .Subject.SubjectType "book" }}selected{{end}}>图书</option>
+                                <option value="movie" {{if eq .Subject.SubjectType "movie" }}selected{{end}}>电影</option>
+                                <option value="tv" {{if eq .Subject.SubjectType "tv" }}selected{{end}}>剧集</option>
+                                <option value="anime" {{if eq .Subject.SubjectType "anime" }}selected{{end}}>番剧</option>
+                                <option value="game" {{if eq .Subject.SubjectType "game" }}selected{{end}}>游戏</option>
+                            </select>
+                        </div>
+                        <div class="edit-select-list">
+                            <label for="status">标记状态:</label>
+                            <select id="status" name="status">
+                                <option value="1" {{if eq .Subject.Status 1 }}selected{{end}}>{{ printf "想%s" $statusType }}</option>
+                                <option value="2" {{if eq .Subject.Status 2 }}selected{{end}}>{{ printf "在%s" $statusType }}</option>
+                                <option value="3" {{if eq .Subject.Status 3 }}selected{{end}}>{{ printf "%s过" $statusType }}
+                                </option>
+                                <option value="4" {{if eq .Subject.Status 4 }}selected{{end}}>搁置</option>
+                                <option value="5" {{if eq .Subject.Status 5 }}selected{{end}}>抛弃</option>
+                            </select>
+                        </div>
+                        <div class="edit-select-list">
+                            <label for="rating">我的评分:</label>
+                            <select id="rating" name="rating">
+                                <option value="0" {{if eq .Subject.Rating 0 }}selected{{end}}>未评分</option>
+                                <option value="1" {{if eq .Subject.Rating 1 }}selected{{end}}>1 分</option>
+                                <option value="2" {{if eq .Subject.Rating 2 }}selected{{end}}>2 分</option>
+                                <option value="3" {{if eq .Subject.Rating 3 }}selected{{end}}>3 分</option>
+                                <option value="4" {{if eq .Subject.Rating 4 }}selected{{end}}>4 分</option>
+                                <option value="5" {{if eq .Subject.Rating 5 }}selected{{end}}>5 分</option>
+                                <option value="6" {{if eq .Subject.Rating 6 }}selected{{end}}>6 分</option>
+                                <option value="7" {{if eq .Subject.Rating 7 }}selected{{end}}>7 分</option>
+                                <option value="8" {{if eq .Subject.Rating 8 }}selected{{end}}>8 分</option>
+                                <option value="9" {{if eq .Subject.Rating 9 }}selected{{end}}>9 分</option>
+                                <option value="10" {{if eq .Subject.Rating 10 }}selected{{end}}>10 分</option>
+                            </select>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ if ne .ManageType 4 }}
+        <div class="edit-upload">
+            <label for="image">更新封面:</label>
+            <input type="file" id="image" name="image">
+        </div>
+        {{ end }}
+        <div class="subject-intro">
+            <h3 class="subject-intro-title">{{ .SummaryLabel }}</h3>
+            <textarea id="summary" name="summary" placeholder="暂无简介...">{{ .Subject.Summary }}</textarea>
+        </div>
+
+        <div>
+            <h3 class="subject-intro-title">我的评论</h3>
+            <textarea id="comment" name="comment" placeholder="暂无评论...">{{ .Subject.Comment }}</textarea>
+        </div>
+        <input type="text" id="manage_type" name="manage_type" value="{{ .ManageType }}" hidden>
+        <button type="submit">{{ $buttonText }}</button><a class="cancel-link" href="{{ $cancelURL }}">{{ $cancelText }}</a>
+    </form>
+</main>
+{{ end }}

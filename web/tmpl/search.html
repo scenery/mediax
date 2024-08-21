@@ -1,0 +1,49 @@
+{{ define "main" }}
+<main>
+    <div class="page-title">{{ .PageTitle }} ({{ .TotalCount }})</div>
+    <ul class="subject-list">
+        <input type="radio" name="filter" id="filter-all" checked>
+        <label for="filter-all">全部</label>
+        <input type="radio" name="filter" id="filter-book">
+        <label for="filter-book">图书</label>
+        <input type="radio" name="filter" id="filter-movie">
+        <label for="filter-movie">电影</label>
+        <input type="radio" name="filter" id="filter-tv">
+        <label for="filter-tv">剧集</label>
+        <input type="radio" name="filter" id="filter-anime">
+        <label for="filter-anime">番剧</label>
+        <input type="radio" name="filter" id="filter-game">
+        <label for="filter-game">游戏</label>
+        {{ range .Subjects }}
+        <li class="subject-list-item search {{ .SubjectType }}">
+            <a href="{{ .SubjectURL }}">
+                <img class="subject-list-cover" src="{{ .ImageURL }}" alt="{{ .Title }}">
+            </a>
+            <div class="subject-list-info">
+                <h3 class="subject-list-title">
+                    <a href="{{ .SubjectURL }}">{{ .Title }}</a>
+                    {{ with .AltTitle }}
+                    <span class="note-color subject-list-alttitle">{{ . }}</span>
+                    {{ end }}
+                </h3>
+                {{ if .Creator }}
+                <p class="subject-list-pub"><label>{{ .CreatorLabel }}:</label>{{ .Creator }}</p>
+                {{ end }}
+                {{ if .PubDate }}
+                <p><label>{{ .PubDateLabel }}:</label>{{ .PubDate }}</p>
+                {{ end }}
+                <p class="note-color">
+                    {{ if eq .Rating 0 }}
+                    <i>暂未评分</i>
+                    {{ else }}
+                    {{ $star := div (mul .Rating 10) 2 }}
+                    <span class="rating-star-{{ $star }} rating-block note-color"></span>
+                    {{ end }}
+                </p>
+                <p>{{ .MarkDate }} {{ .StatusText }}</p>
+            </div>
+        </li>
+        {{ end }}
+    </ul>
+</main>
+{{ end }}

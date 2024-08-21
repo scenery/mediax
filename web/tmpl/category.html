@@ -1,0 +1,78 @@
+{{ define "main" }}
+
+{{ $statusType := "看" }}
+{{ if eq .Category "book" }}
+    {{ $statusType = "读" }}
+{{ else if eq .Category "game" }}
+    {{ $statusType = "玩" }}
+{{ end }}
+<main>
+    <div class="page-heading">
+        <div class="page-title"><a class="no-color" href="/{{.Category}}">{{ .PageTitle }}</a> ({{ .StatusCounts.All }})</div>
+        <div class="page-func"><a href="/add?subject_type={{ .Category }}">添加{{ .PageTitle }}+</a></div>
+    </div>
+    <div class="subject-status-filter">
+        <li><a href="/{{.Category}}?status=1" class="{{ if eq .Status 1 }}active{{ end }}">{{ printf "想%s" $statusType }}</a>({{ .StatusCounts.Todo }})</li>
+        <li><a href="/{{.Category}}?status=2" class="{{ if eq .Status 2 }}active{{ end }}">{{ printf "在%s" $statusType }}</a>({{ .StatusCounts.Doing }})</li>
+        <li><a href="/{{.Category}}?status=3" class="{{ if eq .Status 3 }}active{{ end }}">{{ printf "%s过" $statusType }}</a>({{ .StatusCounts.Done }})</li>
+        <li><a href="/{{.Category}}?status=4" class="{{ if eq .Status 4 }}active{{ end }}">搁置</a>({{ .StatusCounts.OnHold }})</li>
+        <li><a href="/{{.Category}}?status=5" class="{{ if eq .Status 5 }}active{{ end }}">抛弃</a>({{ .StatusCounts.Dropped }})</li>
+    </div>
+    <ul class="subject-list">
+        {{ range .Subjects }}
+        <li class="subject-list-item">
+            <a href="{{ .SubjectURL }}">
+                <img class="subject-list-cover" src='{{ .ImageURL }}' alt="{{ .Title }}" loading="lazy">
+            </a>
+            <div class="subject-list-info">
+                <h3 class="subject-list-title">
+                    <a href="{{ .SubjectURL }}">{{ .Title }}</a>
+                    {{ with .AltTitle }}
+                    <span class="note-color subject-list-alttitle">{{ . }}</span>
+                    {{ end }}
+                </h3>
+                {{ if .Creator }}
+                <p class="subject-list-pub"><label>{{ .CreatorLabel }}:</label>{{ .Creator }}</p>
+                {{ end }}
+                {{ if .PubDate }}
+                <p><label>{{ .PubDateLabel }}:</label>{{ .PubDate }}</p>
+                {{ end }}
+                <p class="note-color">
+                    {{ if eq .Rating 0 }}
+                    <i>暂未评分</i>
+                    {{ else }}
+                    {{ $star := div (mul .Rating 10) 2 }}
+                    <span class="rating-star-{{ $star }} rating-block note-color"></span>
+                    {{ end }}
+                </p>
+                <p>{{ .MarkDate }} {{ .StatusText }}</p>
+            </div>
+        </li>
+        {{ else }}
+        <div class="subject-list-null note-color"><i>暂无{{ .PageTitle }}。</i></div>
+        {{ end }}
+    </ul>
+    
+    {{ if gt .TotalPages 1 }}
+    <div class="pagination">
+        {{ if gt .Page 1 }}
+        <a href="?{{ if ne .Status 0 }}status={{ .Status }}&{{ end }}page={{ sub .Page 1 }}" aria-label="Previous">
+            <span>上一页</span>
+        </a>
+        {{ else }}
+        <span class="pagination-disable">上一页</span>
+        {{ end }}
+
+        <span class="pagination-number">{{ .Page }} / {{ if ne .Page .TotalPages }}<a href="?{{ if ne .Status 0 }}status={{ .Status }}&{{ end }}page={{ .TotalPages }}" class="no-color">{{ .TotalPages }}</a>{{ else }}{{ .TotalPages }}{{ end }}</span>
+
+        {{ if lt .Page .TotalPages }}
+        <a href="?{{ if ne .Status 0 }}status={{ .Status }}&{{ end }}page={{ add .Page 1 }}" aria-label="Next">
+            <span>下一页</span>
+        </a>
+        {{ else }}
+        <span class="pagination-disable">下一页</span>
+        {{ end }}
+    </div>
+    {{ end }}
+</main>
+{{ end }}
