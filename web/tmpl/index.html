@@ -27,7 +27,7 @@
             <a class="home-add" href="/add?subject_type=book">添加图书+</a>
             {{ end }}
         </div>
-        <div class="home-list{{ if .FewBooks }} home-list-few{{ end }}">
+        <div class="home-list">
             {{ if .FewBooks }}
             <div class="home-item">
                 <a href="/add?subject_type=book">
@@ -61,7 +61,7 @@
             <a class="home-add" href="/add?subject_type=movie">添加电影+</a>
             {{ end }}
         </div>
-        <div class="home-list{{ if .FewMovies }} home-list-few{{ end }}">
+        <div class="home-list">
             {{ if .FewMovies }}
             <div class="home-item">
                 <a href="/add?subject_type=movie">
@@ -95,7 +95,7 @@
             <a class="home-add" href="/add?subject_type=tv">添加剧集+</a>
             {{ end }}
         </div>
-        <div class="home-list{{ if .FewTVs }} home-list-few{{ end }}">
+        <div class="home-list">
             {{ if .FewTVs }}
             <div class="home-item">
                 <a href="/add?subject_type=tv">
@@ -129,7 +129,7 @@
             <a class="home-add" href="/add?subject_type=anime">添加番剧+</a>
             {{ end }}
         </div>
-        <div class="home-list{{ if .FewAnimes }} home-list-few{{ end }}">
+        <div class="home-list">
             {{ if .FewAnimes }}
             <div class="home-item">
                 <a href="/add?subject_type=anime">
@@ -163,7 +163,7 @@
             <a class="home-add" href="/add?subject_type=game">添加游戏+</a>
             {{ end }}
         </div>
-        <div class="home-list{{ if .FewGames }} home-list-few{{ end }}">
+        <div class="home-list">
             {{ if .FewGames }}
             <div class="home-item">
                 <a href="/add?subject_type=game">
