@@ -47,15 +47,19 @@ type CategoryView struct {
 	Category     string
 	Status       int
 	StatusCounts StatusCounts
-	Page         int
+	CurrentPage  int
 	TotalPages   int
 	Subjects     []CategoryViewItem
 }
 
 type SearchView struct {
-	PageTitle  string
-	TotalCount int64
-	Subjects   []CategoryViewItem
+	PageTitle   string
+	Query       string
+	QueryType   string
+	TotalCount  int64
+	CurrentPage int
+	TotalPages  int
+	Subjects    []CategoryViewItem
 }
 
 type HomeViewItem struct {

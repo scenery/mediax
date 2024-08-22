@@ -1,24 +1,19 @@
 {{ define "main" }}
+{{ $showBadge := false }}
+{{ if eq .QueryType "all" }}
+{{ $showBadge = true }}
+{{ end }}
 <main>
     <div class="page-title">{{ .PageTitle }} ({{ .TotalCount }})</div>
     <ul class="subject-list">
-        <input type="radio" name="filter" id="filter-all" checked>
-        <label for="filter-all">全部</label>
-        <input type="radio" name="filter" id="filter-book">
-        <label for="filter-book">图书</label>
-        <input type="radio" name="filter" id="filter-movie">
-        <label for="filter-movie">电影</label>
-        <input type="radio" name="filter" id="filter-tv">
-        <label for="filter-tv">剧集</label>
-        <input type="radio" name="filter" id="filter-anime">
-        <label for="filter-anime">番剧</label>
-        <input type="radio" name="filter" id="filter-game">
-        <label for="filter-game">游戏</label>
         {{ range .Subjects }}
-        <li class="subject-list-item search {{ .SubjectType }}">
-            <a href="{{ .SubjectURL }}">
-                <img class="subject-list-cover" src="{{ .ImageURL }}" alt="{{ .Title }}">
-            </a>
+        <li class="subject-list-item">
+            <div class="subject-list-cover search-cover">
+                {{ if $showBadge }}
+                <span class="item-badge search-badge {{ .SubjectType }}"></span>
+                {{ end }}
+                <a href="{{ .SubjectURL }}"><img class="subject-list-image" src="{{ .ImageURL }}" alt="{{ .Title }}" loading="lazy"></a>
+            </div>
             <div class="subject-list-info">
                 <h3 class="subject-list-title">
                     <a href="{{ .SubjectURL }}">{{ .Title }}</a>
@@ -45,5 +40,27 @@
         </li>
         {{ end }}
     </ul>
+
+    {{ if gt .TotalPages 1 }}
+    <div class="pagination">
+        {{ if gt .CurrentPage 1 }}
+        <a href="?q={{ .Query }}&subject_type={{ .QueryType }}&page={{ sub .CurrentPage 1 }}" aria-label="Previous">
+            <span>上一页</span>
+        </a>
+        {{ else }}
+        <span class="pagination-disable">上一页</span>
+        {{ end }}
+
+        <span class="pagination-number">{{ .CurrentPage }} / {{ if ne .CurrentPage .TotalPages }}<a href="?q={{ .Query }}&subject_type={{ .QueryType }}&page={{ .TotalPages }}" class="no-color">{{ .TotalPages }}</a>{{ else }}{{ .TotalPages }}{{ end }}</span>
+
+        {{ if lt .CurrentPage .TotalPages }}
+        <a href="?q={{ .Query }}&subject_type={{ .QueryType }}&page={{ add .CurrentPage 1 }}" aria-label="Next">
+            <span>下一页</span>
+        </a>
+        {{ else }}
+        <span class="pagination-disable">下一页</span>
+        {{ end }}
+    </div>
+    {{ end }}
 </main>
 {{ end }}

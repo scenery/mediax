@@ -64,9 +64,9 @@ func handleCategory(w http.ResponseWriter, r *http.Request) {
 		Category:     category,
 		Status:       status,
 		StatusCounts: statusCounts,
-		Page:         page,
-		Subjects:     processCategoryHTML(subjects),
+		CurrentPage:  page,
 		TotalPages:   totalPages,
+		Subjects:     processCategoryHTML(subjects),
 	}
 
 	renderPage(w, "category.html", data)

@@ -21,9 +21,11 @@
     <ul class="subject-list">
         {{ range .Subjects }}
         <li class="subject-list-item">
-            <a href="{{ .SubjectURL }}">
-                <img class="subject-list-cover" src='{{ .ImageURL }}' alt="{{ .Title }}" loading="lazy">
-            </a>
+            <div class="subject-list-cover">
+                <a href="{{ .SubjectURL }}">
+                    <img class="subject-list-image" src="{{ .ImageURL }}" alt="{{ .Title }}" loading="lazy">
+                </a>
+            </div>
             <div class="subject-list-info">
                 <h3 class="subject-list-title">
                     <a href="{{ .SubjectURL }}">{{ .Title }}</a>
@@ -55,18 +57,18 @@
     
     {{ if gt .TotalPages 1 }}
     <div class="pagination">
-        {{ if gt .Page 1 }}
-        <a href="?{{ if ne .Status 0 }}status={{ .Status }}&{{ end }}page={{ sub .Page 1 }}" aria-label="Previous">
+        {{ if gt .CurrentPage 1 }}
+        <a href="?{{ if ne .Status 0 }}status={{ .Status }}&{{ end }}page={{ sub .CurrentPage 1 }}" aria-label="Previous">
             <span>上一页</span>
         </a>
         {{ else }}
         <span class="pagination-disable">上一页</span>
         {{ end }}
 
-        <span class="pagination-number">{{ .Page }} / {{ if ne .Page .TotalPages }}<a href="?{{ if ne .Status 0 }}status={{ .Status }}&{{ end }}page={{ .TotalPages }}" class="no-color">{{ .TotalPages }}</a>{{ else }}{{ .TotalPages }}{{ end }}</span>
+        <span class="pagination-number">{{ .CurrentPage }} / {{ if ne .CurrentPage .TotalPages }}<a href="?{{ if ne .Status 0 }}status={{ .Status }}&{{ end }}page={{ .TotalPages }}" class="no-color">{{ .TotalPages }}</a>{{ else }}{{ .TotalPages }}{{ end }}</span>
 
-        {{ if lt .Page .TotalPages }}
-        <a href="?{{ if ne .Status 0 }}status={{ .Status }}&{{ end }}page={{ add .Page 1 }}" aria-label="Next">
+        {{ if lt .CurrentPage .TotalPages }}
+        <a href="?{{ if ne .Status 0 }}status={{ .Status }}&{{ end }}page={{ add .CurrentPage 1 }}" aria-label="Next">
             <span>下一页</span>
         </a>
         {{ else }}

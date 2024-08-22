@@ -6,7 +6,7 @@ type Subject struct {
 	ID          uint   `gorm:"primaryKey;index:idx_type_status_id;column:id"`
 	UUID        string `gorm:"size:36;unique;column:uuid"`
 	SubjectType string `gorm:"size:16;index:idx_type_status_id;column:subject_type"`
-	Title       string `gorm:"size:255;column:title"`
+	Title       string `gorm:"size:255;index:idx_title;column:title"`
 	AltTitle    string `gorm:"size:255;column:alt_title"`
 	Creator     string `gorm:"size:512;column:creator"`
 	Press       string `gorm:"size:255;column:press"`

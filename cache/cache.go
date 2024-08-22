@@ -14,6 +14,8 @@ import (
 // 分类页面缓存: page:{subject_type}:{status}:{page_number}
 // 分类总数缓存: count:{subject_type}
 // 条目缓存: subject:{uuid}
+// 搜索缓存: search:{query_key}:{page}
+// 搜索总数缓存: count:search:{query_key}
 type CacheItem struct {
 	Value      interface{}
 	Expiration time.Time
