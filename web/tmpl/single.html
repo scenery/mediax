@@ -2,13 +2,21 @@
 
 <main>
     <div class="subject">
+        <div class="single-heading">
+            {{ .Subject.Title }}
+            {{ with .Subject.AltTitle }}
+            <span class="note-color">{{ . }}</span>
+            {{ end }}
+        </div>
         <div class="subject-info">
             <img class="subject-cover" src='{{ .ImageURL }}' alt="{{ .PageTitle }}">
             <div class="subject-detail">
-                <h2>{{ .Subject.Title }}</h2>
-                {{ with .Subject.AltTitle }}
-                <span class="note-color">{{ . }}</span>
-                {{ end }}
+                <div class="subject-detail-heading">
+                    <h2>{{ .Subject.Title }}</h2>
+                    {{ with .Subject.AltTitle }}
+                    <span class="note-color">{{ . }}</span>
+                    {{ end }}
+                </div>
                 {{ if .Subject.Creator }}
                 <p><label>{{ .CreatorLabel }}:</label><span>{{ .Subject.Creator }}</span></p>
                 {{ end }}
