@@ -34,4 +34,3 @@ changelog:
     exclude:
       - '^docs:'
       - '^ci:'
-      - '^style:'
