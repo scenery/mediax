@@ -166,7 +166,7 @@ func MovePreDownloadedImage(subjectType, externalURL, uuidStr string) {
 
 func PreDownloadImageName(externalURL string) (string, error) {
 	var imageName string
-	pattern := regexp.MustCompile(`^https://(?:book|movie)?\.?(douban|bgm|bangumi)\.(?:com|tv)/subject/(\d+)/?$`)
+	pattern := regexp.MustCompile(`^https://(?:book|movie|www)?\.?(douban|bgm|bangumi)\.(?:com|tv)/(?:game|subject)/(\d+)/?$`)
 	matched := pattern.MatchString(externalURL)
 	if !matched {
 		return imageName, errors.New("failed to get image name: unknown link source")

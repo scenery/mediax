@@ -77,10 +77,10 @@ func importDoubanJSON(filePath string, downloadImage bool) error {
 				altTitle = *item.Interest.Subject.AltTitle
 			}
 			if item.Interest.Subject.Author != nil {
-				creator = joinStrings(*item.Interest.Subject.Author)
+				creator = joinStringsWithSlash(*item.Interest.Subject.Author)
 			}
 			if item.Interest.Subject.Press != nil {
-				press = joinStrings(*item.Interest.Subject.Press)
+				press = joinStringsWithSlash(*item.Interest.Subject.Press)
 			}
 		} else {
 			if item.Interest.Subject.Directors != nil {

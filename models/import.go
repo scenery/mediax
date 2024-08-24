@@ -68,6 +68,17 @@ type DoubanMovieSubject struct {
 	Cover        DoubanCover      `json:"pic"`
 }
 
+type DoubanGameSubject struct {
+	Title       string      `json:"title"`
+	TitleCN     string      `json:"cn_name"`
+	ReleaseDate string      `json:"release_date"`
+	Developer   []string    `json:"developers"`
+	Publisher   []string    `json:"publishers"`
+	Intro       string      `json:"intro"`
+	Type        string      `json:"type"`
+	Cover       DoubanCover `json:"pic"`
+}
+
 // Bangumi
 type BangumiImage struct {
 	Common string `json:"common"`

@@ -12,8 +12,8 @@ import (
 	"gorm.io/gorm"
 )
 
-func joinStrings(elements []string) string {
-	return strings.Join(elements, ", ")
+func joinStringsWithSlash(elements []string) string {
+	return strings.Join(elements, " / ")
 }
 
 func parseDate(dateStr string) string {

@@ -520,7 +520,8 @@ a.subject-outlink {
 }
 
 .add-pre label {
-    flex: unset
+    flex: unset;
+    min-width: 60px
 }
 
 .add-pre .note-color {

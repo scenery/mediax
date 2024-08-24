@@ -24,9 +24,13 @@ func FetchMediaInfo(subjectType, subjectID, apiTarget, externalURL string) (mode
 
 	switch apiTarget {
 	case "douban":
-		apiSubjectType := "movie"
+		var apiSubjectType string
 		if subjectType == "book" {
 			apiSubjectType = "book"
+		} else if subjectType == "game" {
+			apiSubjectType = "game"
+		} else {
+			apiSubjectType = "movie"
 		}
 		apiURL := fmt.Sprintf("https://%s/api/v2/%s/%s", doubanAPIHost, apiSubjectType, subjectID)
 		params := fmt.Sprintf("?apiKey=%s", doubanAPIToken)
@@ -70,9 +74,12 @@ func getDoubanData(subjectType, requestURL string, headers map[string]string) (m
 	}
 
 	var doubanSubject interface{}
-	if subjectType == "book" {
+	switch subjectType {
+	case "book":
 		doubanSubject = &models.DoubanBookSubject{}
-	} else {
+	case "game":
+		doubanSubject = &models.DoubanGameSubject{}
+	default:
 		doubanSubject = &models.DoubanMovieSubject{}
 	}
 
@@ -93,8 +100,8 @@ func getDoubanData(subjectType, requestURL string, headers map[string]string) (m
 	case *models.DoubanBookSubject:
 		title = subject.Title
 		altTitle = subject.AltTitle
-		creator = joinStrings(subject.Author)
-		press = joinStrings(subject.Press)
+		creator = joinStringsWithSlash(subject.Author)
+		press = joinStringsWithSlash(subject.Press)
 		pubDate = getFirstPubdate(subject.PubDate)
 		summary = subject.Intro
 		imageURL = subject.Cover.Normal
@@ -109,6 +116,19 @@ func getDoubanData(subjectType, requestURL string, headers map[string]string) (m
 			press = ""
 		}
 		pubDate = getFirstPubdate(subject.PubDate)
+		summary = subject.Intro
+		imageURL = subject.Cover.Normal
+	case *models.DoubanGameSubject:
+		if strings.Contains(subject.Title, subject.TitleCN) {
+			title = subject.TitleCN
+			altTitle = strings.TrimSpace(strings.Replace(subject.Title, subject.TitleCN, "", 1))
+		} else {
+			title = subject.Title
+			altTitle = subject.TitleCN
+		}
+		creator = joinStringsWithSlash(subject.Developer)
+		press = joinStringsWithSlash(subject.Publisher)
+		pubDate = subject.ReleaseDate
 		summary = subject.Intro
 		imageURL = subject.Cover.Normal
 	}

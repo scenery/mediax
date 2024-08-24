@@ -107,7 +107,7 @@ func processExternalURL(externalURL string, subjectType string) (string, string,
 	var subjectID string
 	var apiTarget string
 
-	pattern := regexp.MustCompile(`^https://(?:book\.douban\.com|movie\.douban\.com|bgm\.tv|bangumi\.tv)/subject/(\d+)/?$`)
+	pattern := regexp.MustCompile(`^https://(?:(?:www|book|movie)\.douban\.com|(?:bgm|bangumi)\.tv)/(?:game|subject)/(\d+)/?$`)
 	matched := pattern.MatchString(externalURL)
 	if !matched {
 		return "", "", errors.New("bad request: invalid link format")
@@ -136,7 +136,7 @@ func processExternalURL(externalURL string, subjectType string) (string, string,
 	case "anime":
 		validHosts = []string{"movie.douban.com", "bgm.tv", "bangumi.tv"}
 	case "game":
-		validHosts = []string{"bgm.tv", "bangumi.tv"}
+		validHosts = []string{"www.douban.com", "bgm.tv", "bangumi.tv"}
 	default:
 		return "", "", errors.New("unknown subject type")
 	}
