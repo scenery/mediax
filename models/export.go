@@ -22,3 +22,9 @@ type SubjectExport struct {
 	ExportTime string              `json:"export_time"`
 	TotalCount int                 `json:"total_count"`
 }
+
+type SubjectExportAPI struct {
+	Subjects     []SubjectExportItem `json:"subjects"`
+	ResponseTime string              `json:"response_time"`
+	TotalCount   int                 `json:"total_count"`
+}

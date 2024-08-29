@@ -45,4 +45,6 @@ func setupRoutes() {
 	http.HandleFunc("/add/subject", handleAddSubject)
 
 	http.HandleFunc("/search", handleSearch)
+
+	http.HandleFunc("/api/v0/collection", handleAPI)
 }

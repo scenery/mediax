@@ -14,3 +14,9 @@ const (
 	MaxCacheSubjects = 1000
 	MaxCachePages    = 50
 )
+
+// API Config
+var (
+	CORS_HOST    = "*"
+	RequestLimit = 50
+)
