@@ -41,6 +41,8 @@ func ExportToJSONAPI(subjectType string, limit, offset int) ([]byte, error) {
 		Subjects:     subjects,
 		ResponseTime: time.Now().Format(time.RFC3339),
 		TotalCount:   totalCount,
+		Limit:        limit,
+		Offset:       offset,
 	}
 
 	jsonData, err := json.MarshalIndent(exportData, "", "  ")
