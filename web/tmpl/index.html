@@ -22,7 +22,7 @@
     
     <section class="home-section">
         <div class="home-header">
-            <h2 class="page-title">最近图书</h2>
+            <a href="/book"><h2 class="page-title">最近图书</h2></a>
             {{ if not .FewBooks }}
             <a class="home-add" href="/add?subject_type=book">添加图书+</a>
             {{ end }}
@@ -56,7 +56,7 @@
 
     <section class="home-section">
         <div class="home-header">
-            <h2 class="page-title">最近电影</h2>
+            <a href="/movie"><h2 class="page-title">最近电影</h2></a>
             {{ if not .FewMovies }}
             <a class="home-add" href="/add?subject_type=movie">添加电影+</a>
             {{ end }}
@@ -90,7 +90,7 @@
 
     <section class="home-section">
         <div class="home-header">
-            <h2 class="page-title">最近剧集</h2>
+            <a href="/tv"><h2 class="page-title">最近剧集</h2></a>
             {{ if not .FewTVs }}
             <a class="home-add" href="/add?subject_type=tv">添加剧集+</a>
             {{ end }}
@@ -124,7 +124,7 @@
 
     <section class="home-section">
         <div class="home-header">
-            <h2 class="page-title">最近番剧</h2>
+            <a href="/anime"><h2 class="page-title">最近番剧</h2></a>
             {{ if not .FewAnimes }}
             <a class="home-add" href="/add?subject_type=anime">添加番剧+</a>
             {{ end }}
@@ -158,7 +158,7 @@
 
     <section class="home-section">
         <div class="home-header">
-            <h2 class="page-title">最近游戏</h2>
+            <a href="/game"><h2 class="page-title">最近游戏</h2></a>
             {{ if not .FewGames }}
             <a class="home-add" href="/add?subject_type=game">添加游戏+</a>
             {{ end }}

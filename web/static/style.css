@@ -233,7 +233,7 @@ main {
     transition: all .25s var(--transition-effect)
 }
 
-.home-section:hover .home-add {
+.home-header:hover .home-add {
     visibility: visible;
     opacity: 1
 }
@@ -521,7 +521,7 @@ a.subject-outlink {
 
 .add-pre label {
     flex: unset;
-    min-width: 60px
+    min-width: 65px
 }
 
 .add-pre .note-color {
