@@ -19,7 +19,7 @@ mediaX 是一款使用 Go 语言开发的个人阅读/观影/看剧/追番/游�
 
 mediaX 支持导入豆瓣（图书/电影/剧集）或 [Bangumi 番组计划](https://bgm.tv/)（图书/电影/剧集/番剧/游戏）数据来源的个人历史记录，其中 Bangumi 的电影和剧集记录因 API 返回内容限制未做详细区分，简单的判断如果只有一集归类为电影，大于一集则归类为剧集。
 
-- 导入豆瓣数据：首先使用「[豆伴](https://github.com/doufen-org/tofu)」导出数据，安装好插件后，进入设置连接账号，然后点击浏览器任务栏插件图标选择 `新建任务`，选择备份的项目中只勾选第一个 **影/音/书/游/剧**，等待任务完成后，点击右上方 `浏览备份` - `备份数据库`，解压下载的文件，其中的 `tofu[xxxxxx].json` 为需要的文件，可以打开查看一下，里面应该有你的历史记录。
+- 导入豆瓣数据：首先使用「[豆伴](https://github.com/doufen-org/tofu)」导出数据，安装好插件后，进入设置连接账号，然后点击浏览器任务栏插件图标选择 `新建任务`，选择备份的项目中只勾选第一个 **影/音/书/游/剧**，等待任务完成后，点击右上方 `浏览备份` - `备份数据库`，解压下载的文件，其中的 `tofu[xxxxxx].json` 为需要的文件。
 - 导入 Bangumi 数据：可以直接使用 Bangumi 提供的 [API](https://bangumi.github.io/api/#/%E6%94%B6%E8%97%8F/getUserCollectionsByUsername) 获得数据，在返回结果最后的 total 属性中可以看到你的记录总数，由于单次请求最多返回 50 条记录，如果超过 50 条需要修改 offset 分页参数多获取几次，最后将所有数据汇总保存为 JSON 文件。
 
 ### 导入数据
@@ -42,7 +42,7 @@ mediax.exe --import <douban|bangumi> --file <file.json> [--download-image]
 
 ### 导出数据
 
-mediaX 支持导出内部数据为 JSON 文件：
+mediaX 支持导出内部数据为 JSON 文件，数据格式如下：
 
 ```
 {
@@ -67,7 +67,6 @@ mediaX 支持导出内部数据为 JSON 文件：
   "export_time": string,
   "total_count": int
 }
-
 ```
 
 导出命令：
@@ -83,3 +82,55 @@ mediax.exe --export <all|anime|movie|book|tv|game> [--limit <number>]
 ```
 
 导出的文件将自动保存在程序目录下。
+
+### API
+
+目前 mediaX 支持通过 API 获取基本的个人收藏条目数据，请求接口如下：
+
+```
+/api/v0/collection
+```
+
+返回格式：
+
+```
+{
+  "subjects": [
+    {
+      "uuid": string,
+      "subject_type": string,
+      "title": string,
+      "alt_title": string,
+      "pub_date": string,
+      "creator": string,
+      "press": string,
+      "status": int,
+      "rating": int,
+      "summary": string,
+      "comment": string,
+      "external_url": string,
+      "mark_date": string,
+      "created_at": string
+    }
+  ],
+  "response_tim": string,
+  "total_count": int,
+  "limit": int,
+  "offset": int
+}
+```
+
+可选参数：
+
+- type: 获取数据的类型，默认为所有类型，可选 book, movie, tv, anime, game
+- limit: 获取数据的数量限制，默认（最大）为 50
+- offset: 获取数据的起始位置（跳过的记录数量），默认为 0
+
+例如，使用 `curl` 命令获取数据：
+
+```bash
+# 获取最近 5 条图书数据
+curl "http://localhost:8080/api/v0/collection?type=book&limit=5"
+# 获取第 6 至 10 条图书数据
+curl "http://localhost:8080/api/v0/collection?type=book&limit=5&offset=5"
+```
