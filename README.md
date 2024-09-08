@@ -69,7 +69,7 @@ mediaX 支持导出内部数据为 JSON 文件，数据格式如下：
 }
 ```
 
-导出命令：
+其中 status 表示条目标记状态 - 1: 想看, 2: 在看, 3: 已看, 4: 搁置, 5: 抛弃。导出命令：
 
 ```bash
 # Linux / macOS
@@ -81,7 +81,7 @@ mediax.exe --export <all|anime|movie|book|tv|game> [--limit <number>]
 # ./mediax --export book --limit 5
 ```
 
-导出的文件将自动保存在程序目录下。
+导出的文件将保存在程序目录下。
 
 ### API
 
@@ -113,7 +113,7 @@ mediax.exe --export <all|anime|movie|book|tv|game> [--limit <number>]
       "created_at": string
     }
   ],
-  "response_tim": string,
+  "response_time": string,
   "total_count": int,
   "limit": int,
   "offset": int
