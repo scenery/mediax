@@ -27,7 +27,10 @@ func SaveRemoteImage(imageURL, imageFilePath string, interval bool) error {
 	if err != nil {
 		return fmt.Errorf("failed to create request for URL %s: %v", imageURL, err)
 	}
-	req.Header.Set("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:128.0) Gecko/20100101 Firefox/128.0")
+	req.Header.Set("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:140.0) Gecko/20100101 Firefox/140.0")
+	req.Header.Set("Accept", "image/avif,image/webp,image/png,image/svg+xml,image/*;q=0.8,*/*;q=0.5")
+	req.Header.Set("Accept-Language", "zh,en-US;q=0.7,en;q=0.3")
+	req.Header.Set("Connection", "keep-alive")
 
 	client := &http.Client{
 		Timeout: 10 * time.Second,
