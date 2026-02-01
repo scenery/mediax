@@ -60,7 +60,7 @@
             <label for="image">更新封面 (JPG/PNG/WebP):</label>
             <input type="file" id="image" name="image">
         </div>
-        {{ else if eq .ManageType 3 }}
+        {{ else if or (eq .ManageType 3) (eq .ManageType 4) }}
         <div class="edit-upload">
             <label for="image">上传封面 (JPG/PNG/WebP):</label>
             <input type="file" id="image" name="image">
